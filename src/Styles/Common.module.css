@@ -1,0 +1,100 @@
+.bgWrapper {
+    background-color: #f8f8f8;
+    min-height: 600px;
+    border-top: 2px solid #ececec;
+}
+
+.mainWrapper {
+    width: 800px;
+    margin: 0 auto;
+    min-height: 600px;
+}
+
+.nanBtnWrapper {
+    margin-left: 10px
+}
+
+.navActiveClass {
+    border-bottom: 2px solid #007bff !important
+}
+
+.navButton {
+    margin-right:10px;
+    padding: 10px;
+    border: none;
+    background: none;  
+    cursor: pointer;  
+}
+
+.pinInputBox {
+    width: 60px;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    float: left;
+    margin: 5px
+}
+
+.pinInputBox::placeholder {
+    color: #e0e0eb;
+}
+
+.generateWrapper {
+    width: 500px;
+    margin: 200px auto;    
+}
+
+.listPinWrapper {
+    margin: 20px;    
+}
+
+.eventGenerateButton {
+    width: 150px;
+    border: none;
+    background: none;
+    background-color: #fff;
+    border: 1px solid #007bff;   
+    padding: 10px;
+    border-radius: 6px;
+    color: #007bff;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px;    
+    cursor: pointer;
+}
+
+.eventSaveButton {
+    width: 150px;
+    border: none;
+    background: none;
+    background-color: #007bff;
+    border: 1px solid #fff;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.eventDeleteButton {
+    /* width: 0px; */
+    border: none;
+    background: none;
+    background-color: #ff3333;
+    border: 1px solid #fff;
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.alignCenter {
+    text-align: center
+}

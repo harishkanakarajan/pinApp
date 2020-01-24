@@ -1,2 +1,0 @@
-# pinApp
-Created with CodeSandbox
