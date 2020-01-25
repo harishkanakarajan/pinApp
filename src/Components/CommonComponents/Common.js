@@ -43,11 +43,5 @@ export const pinAlreadyExists = (arrList, value) => {
     }
 
     // Validates whether pin already exists in the saved pin list
-    for(let i = 0;i<arrList.length;i++) {
-        if(arrList[i].pin===value) {
-            return true 
-        }
-    }
-
-    return false
+    return arrList.some((row) => row.pin === value)
 }

@@ -9,7 +9,7 @@ const config = {
     pinSavedSuccess: "PIN saved successfully",
     pinEmptyMsg: "Invalid/Empty PINS found. Kindly generate and save pin again",
     pinExistsMsg: "PIN already exists. Kindly regenerate",
-    noPinGenerated: "No Pins generated yet. Kindly generate and save pin"
+    noPinGenerated: "No Pins generated yet. Kindly generate and save pin",
 }
 
 export default config;
