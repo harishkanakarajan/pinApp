@@ -28,22 +28,14 @@ class ListPin extends React.Component {
         if (data.savedPins.some((row) => row.name.toLowerCase() === e.target.value.toLowerCase()) || e.target.value === "") {
             e.target.value = pinData.name
 
-            this.setState({
-                responseType: config.errorRes
-            })
+            this.setState({ responseType: config.errorRes })
         } else {
-            // Finds the index of current row
-            const index = data.savedPins.findIndex((row) => row.pin === pinData.pin)
-
-            // Assign value changed on to the main array
-            data.savedPins[index].name = e.target.value
+            var savedPins = ListFun.updateName(this.props.savedPins, pinData, e.target.value)
 
             // Send request to Save the data
-            this.props.saveGeneratedPins({ savedPins: data.savedPins })
+            this.props.saveGeneratedPins({ savedPins: savedPins })
 
-            this.setState({
-                responseType: ""
-            })
+            this.setState({ responseType: "" })
         }
     }
 
