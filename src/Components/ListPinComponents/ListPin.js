@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import classes from '../../Styles/Common.module.css'
 import config from '../CommonComponents/config'
+import * as ListFun from './ListPinFunctions'
 
 import { saveGeneratedPins } from '../../Redux/Actions/ActionCreators'
 
@@ -15,10 +16,7 @@ class ListPin extends React.Component {
     }
 
     deleteCurrentRow(pinData) {
-        var data = this.props.savedPins ? this.props.savedPins : []
-
-        // Filtering out the current deleted index
-        const savedPins = data.savedPins.filter((row) => row.pin !== pinData.pin)
+        var savedPins = ListFun.deleteCurrentRow(this.props.savedPins, pinData)
 
         // Triggering save with the updated rows
         this.props.saveGeneratedPins({ savedPins: savedPins })

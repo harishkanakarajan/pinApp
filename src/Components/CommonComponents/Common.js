@@ -8,7 +8,10 @@ export const hasValue = (value) => {
 }
 
 // Validate whether 2 digits are been repeated
-export const validateConsecutiveDigits = (numArray) => {
+export const validateConsecutiveDigits = (num) => {
+    // Breaking the 4 digit pin into array
+    var numArray = num.toString().split('')
+
     for (let i = 0; i < numArray.length - 1; i++) {
         if (numArray[i] === numArray[i + 1]) {
             return true
@@ -20,7 +23,10 @@ export const validateConsecutiveDigits = (numArray) => {
 }
 
 // Validate value in ASC & DESC order
-export const validateConsecutiveSequence = (numArray) => {
+export const validateConsecutiveSequence = (num) => {
+    // Breaking the 4 digit pin into array
+    var numArray = num.toString().split('')
+
     var loopIndex = numArray.length % config.consecutiveSequence
 
     for (let i = 0; i <= loopIndex; i++) {
@@ -51,18 +57,16 @@ export const prepareExcludeNumbers = () => {
     var validPins = []
 
     //Total exclusion between 1010 - 9899 is 2579
-    for (let i = config.minPinValue; i <= config.maxPinValue; i++) {
-        // Breaking the 4 digit pin into array
-        var numArray = i.toString().split('')
+    for (let num = config.minPinValue; num <= config.maxPinValue; num++) {
 
         // Validate whether 2 digits are been repeated
-        if (validateConsecutiveDigits(numArray)) {
+        if (validateConsecutiveDigits(num)) {
             continue
-        } else if (validateConsecutiveSequence(numArray)) {
+        } else if (validateConsecutiveSequence(num)) {
             // Checking consective 3 or more ascending or descending digits in both ASC & DESC order
             continue
         } else {
-            validPins.push(i)
+            validPins.push(num)
         }
     }
     //console.log(validPins) - 6310

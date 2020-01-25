@@ -4,6 +4,7 @@ import classes from '../../Styles/Common.module.css'
 import config from '../CommonComponents/config'
 /* Common functions file to invoke common methods */
 import * as Common from '../CommonComponents/Common'
+import * as GenPinFunc from './GeneratePinFunctions'
 
 import { saveGeneratedPins } from '../../Redux/Actions/ActionCreators'
 
@@ -24,7 +25,8 @@ class GeneratePin extends React.Component {
         var currentPin = ""
         var currentArr = []
         for (let i = 1; i <= config.inputBoxes.length; i++) {
-            currentPin = this.generateSinglePin()
+            // Fetch random pin from Valid keys
+            currentPin = GenPinFunc.generateSinglePin(this.state.validPins)
 
             // Push each of 4 digit pin into array to validate duplicate
             if (!currentArr.includes(currentPin)) {
@@ -106,12 +108,6 @@ class GeneratePin extends React.Component {
     prepareExcludeNumbers() {
         const validPins = Common.prepareExcludeNumbers()
         this.setState({ validPins })
-    }
-
-    /* Generates a 4 digit pin for each input box */
-    generateSinglePin() {
-        var validPins = this.state.validPins
-        return validPins[Math.floor(Math.random() * validPins.length)]
     }
 
     render() {
