@@ -48,10 +48,13 @@ class GeneratePin extends React.Component {
     }
 
     savePin() {
-        //debugger;
-        var savedPins = this.props.savedPins.length === 0 ? this.props.savedPins : this.props.savedPins.savedPins
-        var finalKey = []
+        var savedPins = this.props.savedPins.length === 0 ? this.props.savedPins : []
+         if (savedPins.length === 0 && this.props.savedPins) {
+            savedPins = this.props.savedPins.savedPins ? this.props.savedPins.savedPins : []
+        } 
 
+        var finalKey = []
+        
         // Merging the PINS together
         for (let i = 1; i <= config.inputBoxes.length; i++) {
             // Validating empty pin
