@@ -11,24 +11,23 @@ class ListPin extends React.Component {
 
         this.state = {
             responseType: ""
-        }        
+        }
     }
 
     deleteCurrentRow(pinData) {
         var data = this.props.savedPins ? this.props.savedPins : []
+
+        // Filtering out the current deleted index
         const savedPins = data.savedPins.filter((row) => row.pin !== pinData.pin)
-        this.props.saveGeneratedPins({savedPins: savedPins})
+
+        // Triggering save with the updated rows
+        this.props.saveGeneratedPins({ savedPins: savedPins })
     }
 
     updateName(e, pinData) {
         var data = this.props.savedPins ? this.props.savedPins : []
         // Validate whether Duplicate value exists
-        if(data.savedPins.some((row) => row.name.toLowerCase() === e.target.value.toLowerCase()) || e.target.value==="") {
-            // Finds the index of current row
-            const index = data.savedPins.findIndex((row) => row.pin === pinData.pin)
-
-            // Assign value changed on to the main array
-            data.savedPins[index].name = pinData.name
+        if (data.savedPins.some((row) => row.name.toLowerCase() === e.target.value.toLowerCase()) || e.target.value === "") {
             e.target.value = pinData.name
 
             this.setState({
@@ -41,13 +40,13 @@ class ListPin extends React.Component {
             // Assign value changed on to the main array
             data.savedPins[index].name = e.target.value
 
+            // Send request to Save the data
+            this.props.saveGeneratedPins({ savedPins: data.savedPins })
+
             this.setState({
                 responseType: ""
-            })            
+            })
         }
-        
-        // Send request to Save the data
-        this.props.saveGeneratedPins({savedPins: data.savedPins})  
     }
 
     render() {

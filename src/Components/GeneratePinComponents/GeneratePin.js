@@ -54,7 +54,6 @@ class GeneratePin extends React.Component {
         } 
 
         var finalKey = []
-        
         // Merging the PINS together
         for (let i = 1; i <= config.inputBoxes.length; i++) {
             // Validating empty pin
@@ -103,25 +102,9 @@ class GeneratePin extends React.Component {
         this.prepareExcludeNumbers()
     }
 
+    /* Preparing validation upfront to get valid numbers alone for pin generation */
     prepareExcludeNumbers() {
-        var validPins = []
-
-        //Total exclusion between 1010 - 9899 is 2579
-        for (let i = config.minPinValue; i <= config.maxPinValue; i++) {
-            // Breaking the 4 digit pin into array
-            var numArray = i.toString().split('')
-
-            // Validate whether 2 digits are been repeated
-            if (Common.validateConsecutiveDigits(numArray)) {
-                continue
-            } else if (Common.validateConsecutiveSequence(numArray)) {
-                // Checking consective 3 or more ascending or descending digits in both ASC & DESC order
-                continue
-            } else {
-                validPins.push(i)
-            }
-        }
-        //console.log(validPins) - 6310
+        const validPins = Common.prepareExcludeNumbers()
         this.setState({ validPins })
     }
 
@@ -135,17 +118,20 @@ class GeneratePin extends React.Component {
 
         return (
             <div className={classes.generateWrapper}>
+                {/* SUCCESS MSG HANDLER */}
                 {this.state.responseType === config.successRes && <div className={classes.alertMsg + " " + classes.successMsg}>
                     {this.state.responseMsg}
                 </div>}
 
+                {/* ERROR MSG HANDLER */}
                 {this.state.responseType === config.errorRes && <div className={classes.alertMsg + " " + classes.errorMsg}>
                     {this.state.responseMsg}
                 </div>}
 
+                {/* Rendering Inputboxes based on config */}
                 <div>
                     {config.inputBoxes.map(index =>
-                        <input key={index} defaultValue={this.state["box_" + index]} type="text" name="" placeholder="1111" maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />
+                        <input key={index} defaultValue={this.state["box_" + index]} type="text" placeholder="1111" maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />
                     )}
                 </div>
 
