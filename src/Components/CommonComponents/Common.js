@@ -43,11 +43,6 @@ export const validateConsecutiveSequence = (num) => {
 
 // Validate PIN Already exists
 export const pinAlreadyExists = (arrList, value) => {
-    // Return false if no prior key is found in list
-    if (!hasValue(arrList)) {
-        return false
-    }
-
     // Validates whether pin already exists in the saved pin list
     return arrList.some((row) => row.pin === value)
 }
