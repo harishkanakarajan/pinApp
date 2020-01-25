@@ -11,7 +11,7 @@ class ListPin extends React.Component {
             <div className={classes.listPinWrapper}>
                 {data.savedPins ? data.savedPins.map((pinData, index) =>
                     <div key={index}>
-                        <input type="text" name="" placeholder="Name" className={classes.pinInputBox} style={{ width: "150px" }} />
+                        <input type="text" name="" placeholder="Name" value={pinData.name} className={classes.pinInputBox} style={{ width: "150px" }} />
                         <input type="text" name="" placeholder="1111" value={pinData.pin.split('-')[0]} maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />
                         <input type="text" name="" placeholder="1111" value={pinData.pin.split('-')[1]} maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />
                         <input type="text" name="" placeholder="1111" value={pinData.pin.split('-')[2]} maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />
@@ -19,7 +19,7 @@ class ListPin extends React.Component {
                         <input type="text" name="" placeholder="1111" value={pinData.pin.split('-')[4]} maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />
                         <button className={classes.eventDeleteButton}>Delete</button>
                     </div>
-                ) : "No Pins generated yet"}
+                ) : <div className={classes.alertMsg + " " + classes.infoMsg}>"No Pins generated yet"</div>}
             </div>
         )
     }

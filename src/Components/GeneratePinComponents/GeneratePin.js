@@ -2,8 +2,10 @@ import React from "react"
 import { connect } from "react-redux"
 import classes from '../../Styles/Common.module.css'
 import config from '../CommonComponents/config'
+/* Common functions file to invoke common methods */
+import * as Common from '../CommonComponents/Common'
 
-import {saveGeneratedPins} from '../../Redux/Actions/ActionCreators'
+import { saveGeneratedPins } from '../../Redux/Actions/ActionCreators'
 
 class GeneratePin extends React.Component {
     constructor(props) {
@@ -11,7 +13,9 @@ class GeneratePin extends React.Component {
 
         this.state = {
             validPins: [],
-            currentGeneratedPins: []
+            currentGeneratedPins: [],
+            responseMsg: "",
+            responseType: ""
         }
     }
 
@@ -45,25 +49,51 @@ class GeneratePin extends React.Component {
 
     savePin() {
         //debugger;
-        var savedPins = this.props.savedPins.length===0 ? this.props.savedPins : this.props.savedPins.savedPins
+        var savedPins = this.props.savedPins.length === 0 ? this.props.savedPins : this.props.savedPins.savedPins
         var finalKey = []
 
         // Merging the PINS together
-        for(let i = 1; i <= config.inputBoxes.length; i++) {
-            finalKey.push(this.state['box_'+i])
+        for (let i = 1; i <= config.inputBoxes.length; i++) {
+            // Validating empty pin
+            if (!Common.hasValue(this.state['box_' + i])) {
+                this.setState({
+                    box_1: "", box_2: "", box_3: "", box_4: "", box_5: "",
+                    responseType: config.errorRes,
+                    responseMsg: config.pinEmptyMsg
+                })
+                return false
+            }
+
+            finalKey.push(this.state['box_' + i])
         }
 
-        // Preparing data
-        var saveArr = {
-            name: "", // Preloading Name field to be used for future purpose
-            pin: finalKey.join('-')
-        }
-        
-        // Pushing build object to final data
-        savedPins.push(saveArr)
+        // Verifiying whether PIN already exists
+        if (!Common.pinAlreadyExists(savedPins, finalKey.join('-'))) {
+            // Preparing data
+            var saveArr = {
+                name: "Pin " + new Date().getTime(), // Preloading Name field to be used for future purpose
+                pin: finalKey.join('-')
+            }
 
-        // Invoking Save of pin
-        this.props.saveGeneratedPins({ savedPins });
+            // Pushing build object to final data
+            savedPins.push(saveArr)
+
+            // Invoking Save of pin
+            this.props.saveGeneratedPins({ savedPins });
+
+            // Resetting pin after saving
+            this.setState({
+                box_1: "", box_2: "", box_3: "", box_4: "", box_5: "",
+                responseType: config.successRes,
+                responseMsg: config.pinSavedSuccess
+            })
+        } else {
+            this.setState({
+                box_1: "", box_2: "", box_3: "", box_4: "", box_5: "",
+                responseType: config.errorRes,
+                responseMsg: config.pinExistsMsg
+            })
+        }
     }
 
     componentDidMount() {
@@ -79,9 +109,9 @@ class GeneratePin extends React.Component {
             var numArray = i.toString().split('')
 
             // Validate whether 2 digits are been repeated
-            if (this.validateConsecutiveDigits(numArray)) {
+            if (Common.validateConsecutiveDigits(numArray)) {
                 continue
-            } else if (this.validateConsecutiveSequence(numArray)) {
+            } else if (Common.validateConsecutiveSequence(numArray)) {
                 // Checking consective 3 or more ascending or descending digits in both ASC & DESC order
                 continue
             } else {
@@ -92,34 +122,6 @@ class GeneratePin extends React.Component {
         this.setState({ validPins })
     }
 
-    // Validate whether 2 digits are been repeated
-    validateConsecutiveDigits(numArray) {
-        for (let i = 0; i < numArray.length - 1; i++) {
-            if (numArray[i] === numArray[i + 1]) {
-                return true
-            } else {
-                continue
-            }
-        }
-        return false
-    }
-
-    // Validate value in ASC & DESC order
-    validateConsecutiveSequence(numArray) {
-        var loopIndex = numArray.length % config.consecutiveSequence
-
-        for (let i = 0; i <= loopIndex; i++) {
-            if (parseInt(numArray[i]) + 1 === parseInt(numArray[i + 1]) && parseInt(numArray[i + 1]) + 1 === parseInt(numArray[i + 2])) {
-                return true
-            } else if (parseInt(numArray[i]) - 1 === parseInt(numArray[i + 1]) && parseInt(numArray[i + 1]) - 1 === parseInt(numArray[i + 2])) {
-                return true
-            } else {
-                continue
-            }
-        }
-        return false
-    }
-
     /* Generates a 4 digit pin for each input box */
     generateSinglePin() {
         var validPins = this.state.validPins
@@ -127,10 +129,17 @@ class GeneratePin extends React.Component {
     }
 
     render() {
-        console.log("State :  ")
-        console.log(this.props)
+
         return (
             <div className={classes.generateWrapper}>
+                {this.state.responseType === config.successRes && <div className={classes.alertMsg + " " + classes.successMsg}>
+                    {this.state.responseMsg}
+                </div>}
+
+                {this.state.responseType === config.errorRes && <div className={classes.alertMsg + " " + classes.errorMsg}>
+                    {this.state.responseMsg}
+                </div>}
+
                 <div>
                     {config.inputBoxes.map(index =>
                         <input key={index} defaultValue={this.state["box_" + index]} type="text" name="" placeholder="1111" maxLength={config.maxLengthPin} readOnly className={classes.pinInputBox} />

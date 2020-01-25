@@ -98,3 +98,28 @@
 .alignCenter {
     text-align: center
 }
+
+.alertMsg {
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;    
+    margin: 0px 40px 10px 0px
+}
+
+.successMsg {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;  
+}
+
+.errorMsg {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;    
+}
+
+.infoMsg {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;    
+}
